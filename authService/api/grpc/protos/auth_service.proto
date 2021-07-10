@@ -1,0 +1,13 @@
+syntax = "proto3";
+option go_package = "/pbs";
+service AuthService{
+  rpc CheckToken(CheckTokenParams) returns (CheckTokenResp);
+}
+
+message CheckTokenParams{
+  string token = 1;
+}
+
+message CheckTokenResp{
+  bool ok = 1;
+}

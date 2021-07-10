@@ -1,0 +1,12 @@
+syntax = "proto3";
+option go_package = "/pbs";
+service TempService{
+  rpc Ping(PingParams) returns (PingResp);
+}
+
+message PingParams{
+}
+
+message PingResp{
+}
+

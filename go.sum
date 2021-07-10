@@ -1,0 +1,4 @@
+github.com/hnit-acm/go-common v0.0.3 h1:c5WnyvbQ2Roo5BwpFTO5V9AL4WwZsOL0cYHURJ0eoAM=
+github.com/hnit-acm/go-common v0.0.3/go.mod h1:+1zd3ocCleHzqSwNzxVt8xlilGpvQGLswRt0QCh/7qA=
+github.com/hnit-acm/hfunc v0.0.6 h1:GT5oJugUwG3dHhCy7Ma12ie+aJHe8HGwQDtlMW8TW24=
+github.com/hnit-acm/hfunc v0.0.6/go.mod h1:ZWupd7FwCnVoYflz60vDCG1i9JQ/5g/biKo/bRWRHl0=

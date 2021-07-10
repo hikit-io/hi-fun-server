@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: centos
+spec:
+  containers:
+    - name: centos
+      image: arm64v8/centos:7

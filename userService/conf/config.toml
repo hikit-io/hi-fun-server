@@ -1,0 +1,11 @@
+[basic]
+model = "dev"
+port = "8020"
+
+[mysql]
+adrr=""
+dsn=""
+
+[redis]
+addr=""
+

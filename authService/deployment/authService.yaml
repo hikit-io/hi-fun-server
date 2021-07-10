@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: hfunc-auth-service
+spec:
+  selector:
+    matchLabels:
+      app: hfunc-auth-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hfunc-auth-service
+      annotations:
+        security.alpha.kubernetes.io/unsafe-sysctls: net.core.rmem_max=2500000
+    spec:
+      containers:
+        - name: hfunc-auth-service
+          image: hfunc/auth-service:qa
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8010
+              protocol: UDP
+            - containerPort: 8010
+              protocol: TCP
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hfunc-auth-service
+spec:
+  selector:
+    app: hfunc-auth-service
+  type: NodePort
+  ports:
+    - name: https
+      protocol: TCP
+      targetPort: 8010
+      port: 8010
+      nodePort: 8010
+    - name: http3
+      protocol: UDP
+      port: 8010
+      targetPort: 8010
+      nodePort: 8010

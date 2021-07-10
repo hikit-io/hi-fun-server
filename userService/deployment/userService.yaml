@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: hfunc-user-service
+spec:
+  selector:
+    matchLabels:
+      app: hfunc-user-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hfunc-user-service
+    spec:
+      containers:
+        - name: hfunc-user-service
+          image: hfunc/user-service:qa
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8020
+              protocol: UDP
+            - containerPort: 8020
+              protocol: TCP
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hfunc-user-service
+spec:
+  selector:
+    app: hfunc-user-service
+  type: NodePort
+  ports:
+    - name: https
+      protocol: TCP
+      targetPort: 8020
+      port: 8020
+      nodePort: 8020
+    - name: http3
+      protocol: UDP
+      port: 8020
+      targetPort: 8020
+      nodePort: 8020

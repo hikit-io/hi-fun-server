@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-master
+spec:
+  selector:
+    app: mysql-master
+  type: NodePort
+  ports:
+    - name: mysql
+      port: 3306
+      nodePort: 30306
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: default
+  name: mysql-config
+data:
+  ROOT_PASSWORD: "12345"
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: default
+  name: mysql-master
+spec:
+  selector:
+    matchLabels:
+      app: mysql-master
+  serviceName: mysql-master
+  template:
+    metadata:
+      labels:
+        app: mysql-master
+    spec:
+#      initContainers:
+#        - name: mysql
+#          image: mysql/mysql-server:latest
+#          ports:
+#            - containerPort: 3306
+#          volumeMounts:
+#            - mountPath: /var/lib/mysql
+#              name: mysql-pv-claim
+#          env:
+#            - name: MYSQL_ROOT_PASSWORD
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: mysql-config
+#                  key: ROOT_PASSWORD
+      containers:
+        - name: mysql
+          image: mysql/mysql-server:latest
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-pv-claim
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: ROOT_PASSWORD
+      volumes:
+        - name: mysql-config
+          configMap:
+            name: mysql-config
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-pv-claim
+      spec:
+        storageClassName: manual
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 3Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: manual
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer

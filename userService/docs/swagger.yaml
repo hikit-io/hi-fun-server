@@ -1,0 +1,127 @@
+basePath: /api
+definitions:
+  controllers.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+host: 127.0.0.1:8020
+info:
+  contact:
+    email: nieaowei@gmail.com
+    name: Nekilc
+    url: http://www.nekilc.cn
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: UserService
+  version: "1.0"
+paths:
+  /v1/user_service/ping:
+    get:
+      consumes:
+      - application/json
+      description: Ping
+      operationId: user-service-ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Ping
+      tags:
+      - 默认
+  /v1/user_service/unauth/ping:
+    get:
+      consumes:
+      - application/json
+      description: UnauthPing
+      operationId: user-service-UnauthPing
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: UnauthPing
+      tags:
+      - 默认
+  /v1/user_service/userinfo:
+    get:
+      consumes:
+      - application/json
+      description: fetch user info
+      operationId: user-service-GetUserinfo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: fetch user info
+      tags:
+      - 默认
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    flow: application
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    type: oauth2
+  OAuth2Password:
+    flow: password
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      read: ' Grants read access'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"
+x-extension-openapi:
+  example: value on a json format
